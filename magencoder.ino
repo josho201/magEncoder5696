@@ -2,6 +2,8 @@
 
 
 magEncoder5696 encoder1(A0, A2); 
+double lastangle = 0;
+double lastlap = 0;
 
 void setup() {
   // Initialize serial communication for debugging
@@ -10,12 +12,17 @@ void setup() {
 }
 
 void loop() {
+
+  double angle = encoder1.getAngle();
+  double vueltas = encoder1.getPosition();
   
-  double angle = encoder1.getPosition();
-  Serial.println(angle);
+  if(abs(angle - lastangle) > 0.5 || abs(lastlap - vueltas)> 0.01){
+    Serial.println("Vueltas: " + String(vueltas) + " Angulo: " + String(angle));
+    lastangle = angle;
+    lastlap = vueltas;
+  }
   // Read sensor values from the analog pins
 
-  
   
 }
 
